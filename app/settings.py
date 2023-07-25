@@ -9,35 +9,44 @@ import pendulum as time
 class App_Settings:
     def __init__(self) -> None:
         # --INSERIR AQUI SEU PASSWORD E SENHA-- #
-        self.__password = 'Qpzm1598753'
-        self.__user_name = 'rafaelmoraes_jm@hotmail.com'
+        self.__password: str = ''
+        self.__user_name: str = ''
         # ------------------------------------- #
         # ---ISERIR AQUI SEU TOKEN E CHAT_ID--- #
-        self.__token = '6011083439:AAHnLMBkhAy9RfHIla1WwxN6P6jtOrImKeI'
-        self.__chat_id = '@imperio_sinais_gratis'
+        self.__token: str = ''
+        self.__chat_id: str = ''
         # ------------------------------------- #
         # ---------------NÃO MODIFICAR  NENHUMA PROPIEDADE---------------- #
-        self.__eager = 'eager'
-        self.__headless = '--headless=new'
-        self.__parse = 'html'
-        self.__url_api = 'https://casino.betfair.com/api/tables-details'
-        self.__url_rb = (
+        self.__eager: str = 'eager'
+        self.__headless: str = '--headless=new'
+        self.__parse: str = 'html'
+        self.__url_api: str = 'https://casino.betfair.com/api/tables-details'
+        self.__url_rb: str = (
             'https://blaze.com/pt/games/roleta-brasileira/fun?modal=auth&tab=login'
         )
-        self.__headers = {"cookie": "vid=210bec56-62f7-4616-939d-077cf4ff0f25"}
+        self.__headers: dict[str, str] = {
+            "cookie": "vid=210bec56-62f7-4616-939d-077cf4ff0f25"
+        }
         # ---------------------------------------------------------------- #
-        
-        self.__list_one = [2, 4, 6, 7, 12, 17, 18, 21, 22, 25, 27, 28, 29, 34]
-        self.__list_bet = [
+        # -----LISTA DE NUMEROS DO PADRÃO----- #
+        self.__list_one: list[int] = [
+            2, 4, 6, 7, 12, 17, 18, 21, 22, 25, 27, 28, 29, 34
+        ]
+
+        # -----LISTA DE NÚMEROS A SEREM JOGADOS----- #
+        self.__list_bet: list[int] = [
             1, 2, 5, 8, 9, 10, 11, 13, 14, 15, 16, 19,
             20, 23, 24, 26, 30, 31, 32, 33, 35, 36
         ]
-        self.__lose = (
+        # --------------STICKER LOSS--------------- #
+        self.__lose: str = (
             'CAACAgEAAxkBAAEJSXJkhm2UV4YM15Fc8qxS8q1L-uC8pAACFwIAAng1kUdAdid1ISufKy8E'
         )
-        self.__winner = (
+        # --------------STICKER WIN--------------- #
+        self.__winner: str = (
             'CAACAgEAAxkBAAEJSWpkhm2B3AABa4kd7U0AAQi7Vils1MANAAI8AgACMfeZR8QcG-o23geZLwQ'
         )
+    # ------NÃO MODIFICAR EM IPOTESE ALGUMA------- #
 
     @property
     def indexes_of_buttons(self) -> list[int]:
@@ -103,8 +112,10 @@ class App_Settings:
     def list_bet(self) -> list:
         return self.__list_bet
 
+# Por favor não mudar
 
-RED = "\033[1;31m"  
+
+RED = "\033[1;31m"
 BLUE = "\033[1;34m"
 CYAN = "\033[1;36m"
 GREEN = "\033[0;32m"
@@ -114,14 +125,17 @@ BOLD = "\033[;1m"
 REVERSE = "\033[;7m"
 
 
-MARTINGALE_STEPS = 2
+MARTINGALE_STEPS = 1  # -> Quantidade de gales do jogo
 
+# ____CONSTANTES DE DATA E HORA DO PROGRAMA____ # 
 TIME_ZONE = time.now().timezone_name
 DATA = time.now(tz=TIME_ZONE).format('D/MM/YY')
 HOUR = time.now(tz=TIME_ZONE).format('HH:mm:ss')
+# --------------------------------------------- #
 
-
+# DESCONSIDERAR SERVE APENAS PARA FINS DE TESTE #
 if __name__ == '__main__':
     a = App_Settings()
 
     print(a.password)
+# --------------------------------------------- #

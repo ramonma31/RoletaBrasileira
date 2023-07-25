@@ -38,7 +38,7 @@ class Roleta_brasileira(Init_telebot):
         """
         text = f'''GAME: {self.automatic.title_game.upper()}
    STATUS: {self.automatic.status}
-   BANCA: {self.automatic.balace_value}
+   BANCA: {self.automatic.balance_value}
    RESULTADOS: {self.automatic.results}'''
         message_info(text=text, size=(len(self.automatic.results) * 5))
 
@@ -58,7 +58,10 @@ class Roleta_brasileira(Init_telebot):
 
         signal_colect = [x for x in data[0:2] if x in self.settings.list_one]
 
-        if len(signal_colect) >= 2 or self.active_play:
+        if len(signal_colect) >= 2 and (
+            signal_colect[0] != signal_colect[1]
+        ) or self.active_play:
+
             if self.signal:
                 self.correction(data[0], self.settings.list_bet)
             else:
@@ -219,7 +222,8 @@ class Roleta_brasileira(Init_telebot):
         stopping_condition = (
             15 / starting_bank_amount
         ) * 100 if starting_bank_amount > 0 else 0
-        if banking_value >= stopping_condition or amount_of_loss >= 2:
+        stop_playing = stopping_condition + banking_value
+        if banking_value >= stop_playing or amount_of_loss >= 2:
             message_alert('Chegamos ao fim das operaçoes por hoje...')
             return True
         else:

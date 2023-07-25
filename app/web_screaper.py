@@ -34,7 +34,7 @@ class Automatic_play:
         self.driver.get(
             self.set_up.url_rb
         )
-        self.start()
+        # self.start()
         self.frame = 1
 
     @property
@@ -93,21 +93,16 @@ class Automatic_play:
         """
         Returns the game state in string.
         """
-        status = self.long_time.until(self.iframe_two)
-        return status.find_element(
+        return self.iframe_two(self.driver).find_element(
             By.CSS_SELECTOR, '.fit-container__content--l2noR'
         ).text
-        # return self.iframe_two(self.driver).find_element(
-        #     By.CSS_SELECTOR, '.fit-container__content--l2noR'
-        # ).text
 
     @property
     def title_game(self) -> str:
         """
         Returns the game title of the window.
         """
-        title = self.long_time.until(self.iframe_two)
-        return title.find_element(
+        return self.iframe_two(self.driver).find_element(
             By.CSS_SELECTOR, '.table-info__name--Wp_dB'
         ).text
 
@@ -116,9 +111,7 @@ class Automatic_play:
         """
         Brazilian roulette time web element.
         """
-
-        time = self.long_time.until(self.iframe_two)
-        return time.find_element(
+        return self.iframe_two(self.driver).find_element(
             By.CSS_SELECTOR, '.round-timers'
         )
 
@@ -129,10 +122,9 @@ class Automatic_play:
 
         :return: float
         """
-        iframe = self.long_time.until(self.iframe_two)
-        return float(self.controls_panel(iframe).find_element(
+        return float(self.iframe_two(self.driver).find_element(
             By.CSS_SELECTOR,
-            '.balance__value'
+            'div.balance__value'
         ).text.replace('R$', ''))
 
     @property
