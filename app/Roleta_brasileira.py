@@ -29,7 +29,7 @@ class Roleta_brasileira(Init_telebot):
 
     @property
     def init_bank(self):
-        return self.automatic.bet_value
+        return self.automatic.balance_value
 
     def info_screen(self):
         """
@@ -64,6 +64,7 @@ class Roleta_brasileira(Init_telebot):
 
             if self.signal:
                 self.correction(data[0], self.settings.list_bet)
+                return
             else:
                 self.active_play = True
                 message_info(
@@ -75,13 +76,15 @@ class Roleta_brasileira(Init_telebot):
                 self.all_entries += 1
                 self.send_signal(data[0])
                 self.signal = True
+
+# SE NÃO QUISER MAIS JOGADAS AUTOMATICAS COMENTAR ESSA PARTE DO IF #
             if not self.stopping_conditions(
                 starting_bank_amount=self.init_bank,
                 stopping_condition=15,
                 banking_value=self.automatic.balance_value,
                 amount_of_loss=self.total_lost,
             ):
-                self.automatic.click_button(1, self.automatic.game_chips())
+                self.automatic.click_button(0, self.automatic.game_chips())
                 self.automatic.play_signal(
                     self.automatic.list_of_buttons_play,
                     self.settings.indexes_of_buttons,
@@ -99,14 +102,19 @@ class Roleta_brasileira(Init_telebot):
         parameter: last_result: -> list of results to be compared.
         parameter: list_bet: -> list of moves of the signal.
         """
+
         for num in list_bet:
+
             if last_result == num and not self.entry:
+
                 message_winner(text='TIRO SECO')
                 self.accurate_shot += 1
                 self.winner()
                 self.reset()
                 return
+
             elif last_result == num and self.entry:
+
                 message_winner(text=f'WIN NO GALE {self.entry}')
                 self.winner()
                 self.reset()
@@ -167,17 +175,20 @@ class Roleta_brasileira(Init_telebot):
         self.entry += 1
 
         if self.entry <= MARTINGALE_STEPS:
+
             self.message_ID = self.send_message(
                 self.settings.chat_id,
                 f'''🔁 <b>Entramos com a {self.entry}° proteção</b>"'''
             ).message_id
             self.round_two = True
+
             if not self.stopping_conditions(
                 starting_bank_amount=self.init_bank,
                 stopping_condition=15,
                 banking_value=self.automatic.balance_value,
                 amount_of_loss=self.total_lost,
             ):
+
                 self.automatic.click_button(1, self.automatic.game_chips())
                 self.automatic.play_signal(
                     self.automatic.list_of_buttons_play,
@@ -218,11 +229,8 @@ class Roleta_brasileira(Init_telebot):
         Function responsible for orchestrating
         the stops of automatic plays
         """
-
-        stopping_condition = (
-            15 / starting_bank_amount
-        ) * 100 if starting_bank_amount > 0 else 0
-        stop_playing = stopping_condition + banking_value
+        porcent_value = stopping_condition * starting_bank_amount / 100
+        stop_playing = starting_bank_amount + porcent_value
         if banking_value >= stop_playing or amount_of_loss >= 2:
             message_alert('Chegamos ao fim das operaçoes por hoje...')
             return True

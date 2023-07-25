@@ -1,4 +1,4 @@
-from os import system
+# from os import system
 from time import sleep
 
 from info_screen import message_error, message_winner
@@ -34,7 +34,7 @@ class Automatic_play:
         self.driver.get(
             self.set_up.url_rb
         )
-        # self.start()
+        self.start()
         self.frame = 1
 
     @property
@@ -139,11 +139,9 @@ class Automatic_play:
         '''
         Returns a list of the last roulette results int
         '''
-        history_line = self.average_time.until(self.iframe_two)
-        list_line = history_line.find_element(
-            By.CLASS_NAME, 'roulette-game-area__history-line'
-        )
-        str_results = list_line.text.split()
+        str_results = self.iframe_two(self.driver).find_element(
+            By.CSS_SELECTOR, 'div.roulette-game-area__history-line'
+        ).text.split()
         int_results = [int(x) for x in str_results]
         return int_results
 
@@ -198,12 +196,7 @@ class Automatic_play:
         """
         iframe element of the element in question in case frame 1.
         """
-        tag_path = driver.find_element(By.ID, 'root').find_element(
-            By.ID, 'page-container'
-        ).find_element(By.ID, 'game_wrapper').find_element(
-            By.TAG_NAME, 'iframe'
-        )
-        return tag_path
+        return driver.find_element(By.CSS_SELECTOR, 'iframe')
 
     def change_frame(
             self, driver: WebDriver,
@@ -228,25 +221,6 @@ class Automatic_play:
         self.frame = 2
         return html
 
-    def body_iframe(self, document: WebElement) -> WebElement:
-        """
-        Body element of the element in question in the frame 2 case.
-        """
-        return document.find_element(By.TAG_NAME, 'body')
-
-    def div_id_root(self, body_iframe: WebElement) -> WebElement:
-        """
-        Div element of the element in question in case frame 2.
-        """
-        return body_iframe.find_element(By.CSS_SELECTOR, '#root')
-
-    def controls_panel(self, div: WebElement) -> WebElement:
-        """
-        Element bottom control panel,
-        of the element in question in case frame 2.
-        """
-        return div.find_element(By.CLASS_NAME, 'game-table__controls-panel')
-
     def iframe_two(self, driver: WebDriver) -> WebElement:
         """
         Function responsible for always keeping
@@ -255,17 +229,17 @@ class Automatic_play:
         if self.frame == 2:
             self.change_frame(driver, None, True)
         replace_iframe = self.change_frame(driver, self.iframe(driver))
-        body = self.body_iframe(replace_iframe)
-        div_root_iframe = self.div_id_root(body)
-        return div_root_iframe
+        # body = self.body_iframe(replace_iframe)
+        # div_root_iframe = self.div_id_root(body)
+        return replace_iframe.find_element(By.CSS_SELECTOR, '#root')
 
     def game_chips(self) -> list[WebElement]:
         """
         Returns a list of web elements referring to the game's chips
         """
-        return self.iframe_two(self.driver).find_element(
-            By.CSS_SELECTOR, '.arrow-slider__scrollable-content'
-        ).find_elements(By.TAG_NAME, 'svg')
+        return self.iframe_two(self.driver).find_elements(
+            By.CSS_SELECTOR, 'div.arrow-slider__scrollable-content>svg'
+        )
 
     def numbers_play(self, driver: WebDriver) -> list[WebElement]:
         """
@@ -320,7 +294,6 @@ class Automatic_play:
                 message_winner(
                     f'Número {text} jogado com sucesso!'
                 )
-                system('cls')
             return
         except Exception:
             text = '''Saldo insuficiente para continuar jogando,

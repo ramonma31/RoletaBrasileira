@@ -33,38 +33,38 @@ if __name__ == "__main__":
     set_up = App_Settings()
     bot = Roleta_brasileira(set_up.token, set_up.parse)
 
-    # while True:
-    #     try:
+    while True:
+        try:
 
-    #         if bot.automatic.status == 'FAÇA AS SUAS APOSTAS' and game_screen:
+            if bot.automatic.status == 'FAÇA AS SUAS APOSTAS' and game_screen:
 
-    #             os.system('cls')
-    #             game_screen = False
-    #             please_wait = True
-    #             bot.info_screen()
-    #             bot.check_alert(bot.automatic.results)
-    #             time_refresh += 1
-    #             continue
+                os.system('cls')
+                game_screen = False
+                please_wait = True
+                bot.info_screen()
+                bot.check_alert(bot.automatic.results)
+                time_refresh += 1
+                continue
 
-    #         elif (
-    #             bot.automatic.status == 'AGUARDE O INÍCIO DA PRÓXIMA JOGADA'
-    #             ) and please_wait or (
-    #             bot.automatic.status == 'NÃO HÁ MAIS APOSTAS'
-    #                 ) and please_wait:
+            elif (
+                bot.automatic.status == 'AGUARDE O INÍCIO DA PRÓXIMA JOGADA'
+                ) and please_wait or (
+                bot.automatic.status == 'NÃO HÁ MAIS APOSTAS'
+                    ) and please_wait:
 
-    #             os.system('cls')
-    #             please_wait = False
-    #             game_screen = True
-    #             message_info(text=bot.automatic.status)
+                os.system('cls')
+                please_wait = False
+                game_screen = True
+                message_info(text=bot.automatic.status)
 
-    #             if time_refresh >= 20:
-    #                 time_refresh = 0
-    #                 bot.automatic.driver.refresh()
-    #                 message_alert("Atualizando a página por favor aguarde...")
-    #                 sleep(5)
-    #         else:
-    #             continue
-    #     except Exception:
-    #         # os.system('cls')
-    #         message_alert('A página ainda não esta visível...')
-    #         continue
+                if time_refresh >= 20:
+                    time_refresh = 0
+                    bot.automatic.driver.refresh()
+                    message_alert("Atualizando a página por favor aguarde...")
+                    sleep(5)
+            else:
+                continue
+        except Exception:
+            # os.system('cls')
+            message_alert('A página ainda não esta visível...')
+            continue
