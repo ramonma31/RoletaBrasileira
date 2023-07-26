@@ -2,3 +2,5 @@ venv
 tests
 __pycache__
 .vscode
+bot_telegram.py
+manager.py
