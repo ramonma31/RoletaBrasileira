@@ -9,12 +9,12 @@ import pendulum as time
 class App_Settings:
     def __init__(self) -> None:
         # --INSERIR AQUI SEU PASSWORD E SENHA-- #
-        self.__password: str = ''
-        self.__user_name: str = ''
+        self.__password: str = 'Qpzm1598753'
+        self.__user_name: str = 'rafaelmoraes_jm@hotmail.com'
         # ------------------------------------- #
         # ---ISERIR AQUI SEU TOKEN E CHAT_ID--- #
-        self.__token: str = ''
-        self.__chat_id: str = ''
+        self.__token: str = '6011083439:AAHnLMBkhAy9RfHIla1WwxN6P6jtOrImKeI'
+        self.__chat_id: str = '@imperio_sinais_gratis'
         # ------------------------------------- #
         # ---------------NÃO MODIFICAR  NENHUMA PROPIEDADE---------------- #
         self.__eager: str = 'eager'
@@ -126,8 +126,9 @@ REVERSE = "\033[;7m"
 
 
 MARTINGALE_STEPS = 1  # -> Quantidade de gales do jogo
+STOP_LOSS = 2 # -> Quantidade de loss para parar
 
-# ____CONSTANTES DE DATA E HORA DO PROGRAMA____ # 
+# ____CONSTANTES DE DATA E HORA DO PROGRAMA____ #
 TIME_ZONE = time.now().timezone_name
 DATA = time.now(tz=TIME_ZONE).format('D/MM/YY')
 HOUR = time.now(tz=TIME_ZONE).format('HH:mm:ss')

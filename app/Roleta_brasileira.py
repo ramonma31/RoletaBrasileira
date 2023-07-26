@@ -2,7 +2,7 @@ import re
 
 from bot_telegram import Init_telebot
 from info_screen import message_alert, message_info, message_winner
-from settings import DATA, HOUR, MARTINGALE_STEPS, App_Settings
+from settings import DATA, HOUR, MARTINGALE_STEPS, STOP_LOSS, App_Settings
 from templates import GENERATE_REPORT, SIGNAL_TEXT
 from web_screaper import Automatic_play
 
@@ -224,14 +224,14 @@ class Roleta_brasileira(Init_telebot):
             stopping_condition: float | int,
             banking_value: float | int,
             amount_of_loss: int,
-    ):
+    ) -> None:
         """
         Function responsible for orchestrating
         the stops of automatic plays
         """
         porcent_value = stopping_condition * starting_bank_amount / 100
         stop_playing = starting_bank_amount + porcent_value
-        if banking_value >= stop_playing or amount_of_loss >= 2:
+        if banking_value >= stop_playing or amount_of_loss >= STOP_LOSS:
             message_alert('Chegamos ao fim das operaçoes por hoje...')
             return True
         else:
