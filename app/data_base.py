@@ -1,5 +1,9 @@
 import sqlite3
-from sqlite3 import Connection
+from sqlite3 import Connection, Cursor
+
+from info_screen import message_info
+from percentage_calculations import percentage_hits
+from settings import DATA
 
 
 class Data_base:
@@ -8,11 +12,11 @@ class Data_base:
         self._cursor = self._connect.cursor()
 
     @property
-    def connect(self):
+    def connect(self) -> Connection:
         return self._connect
 
     @property
-    def cursor(self):
+    def cursor(self) -> Cursor:
         return self._cursor
 
     def insert_db(
@@ -71,13 +75,35 @@ class Data_base:
 
     def list_db(self):
         self.cursor.execute('SELECT * FROM brazilian_roulette_dice')
-
-        for linha in self._cursor.fetchall():
-            print(linha)
+        return self.cursor.fetchone()
+        # for linha in self._cursor.fetchall():
+        #     print(linha)
 
     def close_db(self):
         self.cursor.close()
         self.connect.close()
+
+    def info_bot(self):
+        b_t = 10.25
+        b_at = 51.65
+        w = 10
+        ls = 1
+        self.edit_db(
+            b_at, b_t, DATA, DATA, percentage_hits(w, w + ls), w, ls, w, ls, 2
+        )
+
+        info = self.list_db()
+
+        text = f'''   DATA BASE
+      {DATA}
+   TOTAL DE WINS: {info[6]}
+   TOTAL DE LOSS: {info[7]}
+   WINS DO DIA:   {info[8]}
+   LOSS DO DIA:   {info[9]}
+   ACERTOS:       {info[5]:.2f}%
+   BANCA ATUAL: R${str(info[2]).replace('.', ',')}
+   BANCA INICI: R${str(info[1]).replace('.', ',')}'''
+        message_info(text=text, size=24)
 
 
 if __name__ == '__main__':
