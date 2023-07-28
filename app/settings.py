@@ -21,9 +21,8 @@ class App_Settings:
         self.__headless: str = '--headless=new'
         self.__parse: str = 'html'
         self.__url_api: str = 'https://casino.betfair.com/api/tables-details'
-        self.__url_rb: str = (
-            'https://blaze.com/pt/games/roleta-brasileira/fun?modal=auth&tab=login'
-        )
+        self.__url_rb: str = 'https://blaze.com/pt/games/'\
+            'roleta-brasileira/fun?modal=auth&tab=login'
         self.__headers: dict[str, str] = {
             "cookie": "vid=210bec56-62f7-4616-939d-077cf4ff0f25"
         }
@@ -39,13 +38,12 @@ class App_Settings:
             20, 23, 24, 26, 30, 31, 32, 33, 35, 36
         ]
         # --------------STICKER LOSS--------------- #
-        self.__lose: str = (
-            'CAACAgEAAxkBAAEJSXJkhm2UV4YM15Fc8qxS8q1L-uC8pAACFwIAAng1kUdAdid1ISufKy8E'
-        )
+        self.__lose: str = 'CAACAgEAAxkBAAEJSXJkhm2UV4YM15Fc8qxS8q1L-'\
+            'uC8pAACFwIAAng1kUdAdid1ISufKy8E'
         # --------------STICKER WIN--------------- #
-        self.__winner: str = (
-            'CAACAgEAAxkBAAEJSWpkhm2B3AABa4kd7U0AAQi7Vils1MANAAI8AgACMfeZR8QcG-o23geZLwQ'
-        )
+        self.__winner: str = 'CAACAgEAAxkBAAEJSWpkhm2B3AABa4kd7U0AAQi7Vil'\
+            's1MANAAI8AgACMfeZR8QcG-o23geZLwQ'
+
     # ------NÃO MODIFICAR EM IPOTESE ALGUMA------- #
 
     @property
@@ -126,12 +124,12 @@ REVERSE = "\033[;7m"
 
 
 MARTINGALE_STEPS = 1  # -> Quantidade de gales do jogo
-STOP_LOSS = 2 # -> Quantidade de loss para parar
+STOP_LOSS = 2  # -> Quantidade de loss para parar
 
 # ____CONSTANTES DE DATA E HORA DO PROGRAMA____ #
-TIME_ZONE = time.now().timezone_name
-DATA = time.now(tz=TIME_ZONE).format('D/MM/YY')
-HOUR = time.now(tz=TIME_ZONE).format('HH:mm:ss')
+TIME_ZONE: str = time.now().timezone_name
+DATA: str = time.now(tz=TIME_ZONE).format('D/MM/YY')
+HOUR: str = time.now(tz=TIME_ZONE).format('HH:mm:ss')
 # --------------------------------------------- #
 
 # DESCONSIDERAR SERVE APENAS PARA FINS DE TESTE #

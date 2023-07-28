@@ -5,3 +5,4 @@ __pycache__
 data_base.sqbpro
 data_base.db
 data_base.py
+mariadb_mysql.py

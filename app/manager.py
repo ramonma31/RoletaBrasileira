@@ -1,7 +1,9 @@
 import os
 from time import sleep
 
+# from data_base import Data_base
 from info_screen import message_alert, message_info
+# from percentage_calculations import percentage_hits
 from Roleta_brasileira import Roleta_brasileira
 from settings import App_Settings
 
@@ -64,7 +66,8 @@ if __name__ == "__main__":
                     sleep(5)
             else:
                 continue
-        except Exception:
+        except Exception as erro:
+            message_alert(erro, 100)
             # os.system('cls')
             message_alert('A página ainda não esta visível...')
-            continue
+            break

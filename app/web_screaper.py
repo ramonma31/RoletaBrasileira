@@ -1,6 +1,7 @@
 # from os import system
 from time import sleep
 
+from click_generator import click_event
 from info_screen import message_error, message_winner
 from selenium.common.exceptions import (ElementNotSelectableException,
                                         ElementNotVisibleException,
@@ -182,15 +183,15 @@ class Automatic_play:
             By.CLASS_NAME, "submit"
         )
 
-    def real_mode(self, driver: WebDriver) -> WebElement:
-        """
-        Web element of button to switch from demo mode to real mode.
-        """
-        check_button = driver.find_element(
-            By.XPATH,
-            '//*[@id="slots-container"]/div[2]/div[2]/div[1]/div[1]/label/span'
-        )
-        return check_button
+    # def real_mode(self, driver: WebDriver) -> WebElement:
+    #     """
+    #     Web element of button to switch from demo mode to real mode.
+    #     """
+    #     check_button = driver.find_element(
+    #         By.XPATH,
+    #         '//*[@id="slots-container"]/div[2]/div[2]/div[1]/div[1]/label/span'
+    #     )
+    #     return check_button
 
     def iframe(self, driver: WebDriver) -> WebElement:
         """
@@ -265,7 +266,6 @@ class Automatic_play:
    erro ao pesquisar elementos da página.
                           ''', size=53)
             return
-        return
 
     def click_button(
             self,
@@ -286,13 +286,11 @@ class Automatic_play:
         Function responsible for clicking on all the numbers,
         at the same time making the move.
         """
-        repeat = len(list_of_index)
         try:
-            for x in range(repeat):
-                text = list_of_buttons[list_of_index[x]].text
+            for x in click_event(list_of_index):
                 list_of_buttons[x].click()
                 message_winner(
-                    f'Número {text} jogado com sucesso!'
+                    f'Número {list_of_buttons[x].text} jogado com sucesso!'
                 )
             return
         except Exception:
@@ -312,16 +310,17 @@ class Automatic_play:
         password.send_keys(self.set_up.password)
         click_entry = self.long_time.until(self.button)
         click_entry.click()
-        real_mode = self.long_time.until(self.real_mode)
-        real_mode.click()
+        # real_mode = self.long_time.until(self.real_mode)
+        # real_mode.click()
         sleep(20)
+        return
 
 
 if __name__ == '__main__':
 
     a = Automatic_play()
     # list_of_buttons = a.numbers_play()
-    # a.click_button(1, a.game_chips())
+    a.play_signal(a.numbers_play(a.driver), a.set_up.indexes_of_buttons)
     # 'FAÇA AS SUAS APOSTAS'
     # 'AGUARDE O INÍCIO DA PRÓXIMA JOGADA'
     # 'ÚLTIMAS APOSTAS'

@@ -5,19 +5,23 @@ def value_in_percentage(
         percentage: float | int | str,
         total: float | int | str,
 ) -> float:
-
-    if type(percentage) == str or type(total) == str:
+    try:
         return float(percentage) * float(total) / 100
-
-    return percentage * total / 100
+    except ZeroDivisionError:
+        return 0
 
 
 def percentage_hits(
         total: int | float | str,
         hits: int | float | str
 ) -> float:
+    try:
+        return float(hits) / float(total) * 100
+    except ZeroDivisionError:
+        return 0
 
-    if type(total) == str or type(hits):
-        return float(total) * 100 / float(hits)
 
-    return float(total) * 100 / float(hits)
+if __name__ == "__main__":
+
+    print(percentage_hits(100, 50))
+    print(value_in_percentage(9, 5))
