@@ -2,6 +2,7 @@ import re
 
 from bot_telegram import Init_telebot
 from info_screen import message_alert, message_info, message_winner
+from percentage_calculations import percentage_hits, value_in_percentage
 from settings import DATA, HOUR, MARTINGALE_STEPS, STOP_LOSS, App_Settings
 from templates import GENERATE_REPORT, SIGNAL_TEXT
 from web_screaper import Automatic_play
@@ -156,14 +157,10 @@ class Roleta_brasileira(Init_telebot):
         and losses in general,
         such as date and time.
         """
-
-        total = self.total_winner + self.total_lost
-        hit_percentage = (
-            (self.total_winner / total) * 100 if self.total_winner > 0
-            else 0
-        )
         self.message(
-            self.text_format(hit_percentage)
+            self.text_format(
+                percentage_hits(self.all_entries, self.total_winner)
+            )
         )
 
     def martingale(self) -> None:
@@ -229,8 +226,9 @@ class Roleta_brasileira(Init_telebot):
         Function responsible for orchestrating
         the stops of automatic plays
         """
-        porcent_value = stopping_condition * starting_bank_amount / 100
-        stop_playing = starting_bank_amount + porcent_value
+        stop_playing = starting_bank_amount + value_in_percentage(
+            stopping_condition, starting_bank_amount
+        )
         if banking_value >= stop_playing or amount_of_loss >= STOP_LOSS:
             message_alert('Chegamos ao fim das operaçoes por hoje...')
             return True

@@ -1,4 +1,4 @@
-# from os import system
+from os import system
 from time import sleep
 
 from click_generator import click_event
@@ -88,6 +88,18 @@ class Automatic_play:
                 TimeoutException
             ]
         )
+
+    @property
+    def server_time(self) -> str:
+        return self.iframe_two(self.driver).find_element(
+            By.CSS_SELECTOR, 'div.server-time'
+        ).text
+
+    @property
+    def regulations_text(self) -> str:
+        return self.iframe_two(self.driver).find_element(
+            By.CSS_SELECTOR, 'div.regulations__text'
+        ).text
 
     @property
     def status(self) -> str:
@@ -294,10 +306,31 @@ class Automatic_play:
                 )
             return
         except Exception:
-            text = '''Saldo insuficiente para continuar jogando,
-   faça um depósito'''
-            message_error(text=text, size=41)
+            system('cls')
+            txt = self.iframe_two(self.driver).find_element(
+                By.CSS_SELECTOR, 'div.default-modal-text--RCv5G'
+            ).text
+
+            self.box_alert(self.driver)
+
+            message_error(text=txt)
             return
+
+    def box_alert(self, driver: WebDriver) -> str:
+        try:
+            close = self.iframe_two(driver).find_element(
+                    By.CSS_SELECTOR, 'div.modal-close-button--g76dn'
+                )
+            if close.is_displayed():
+                close.click()
+        except Exception:
+            raise 'Erro ao carregar a pagina'
+
+    def close_chat(self) -> None:
+        self.iframe_two(self.driver).find_element(
+            By.CSS_SELECTOR, 'div#close-chat'
+        ).click()
+        return
 
     def start(self) -> None:
         """
@@ -320,7 +353,7 @@ if __name__ == '__main__':
 
     a = Automatic_play()
     # list_of_buttons = a.numbers_play()
-    a.play_signal(a.numbers_play(a.driver), a.set_up.indexes_of_buttons)
+    # a.play_signal(a.numbers_play(a.driver), a.set_up.indexes_of_buttons)
     # 'FAÇA AS SUAS APOSTAS'
     # 'AGUARDE O INÍCIO DA PRÓXIMA JOGADA'
     # 'ÚLTIMAS APOSTAS'

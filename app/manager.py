@@ -28,12 +28,19 @@ if __name__ == "__main__":
    LICENÇA: {__license__}
    VERSÃO: {__version__}
    STATUS: {__status__}''', size=54)
-    game_screen = True
-    please_wait = False
+    game_screen: bool = True
+    please_wait: bool = False
     time_refresh: int = 0
+    attempt_limit: int = 0
 
     set_up = App_Settings()
     bot = Roleta_brasileira(set_up.token, set_up.parse)
+    message_id = bot.send_message(
+        set_up.chat_id, bot.automatic.regulations_text
+    ).message_id
+    # bot.message(bot.automatic.server_time)
+    message_info(bot.automatic.regulations_text)
+    message_info(bot.automatic.server_time)
 
     while True:
         try:
@@ -54,6 +61,7 @@ if __name__ == "__main__":
                 bot.automatic.status == 'NÃO HÁ MAIS APOSTAS'
                     ) and please_wait:
 
+                bot.delete_message(set_up.chat_id, message_id)
                 os.system('cls')
                 please_wait = False
                 game_screen = True
@@ -62,12 +70,23 @@ if __name__ == "__main__":
                 if time_refresh >= 20:
                     time_refresh = 0
                     bot.automatic.driver.refresh()
-                    message_alert("Atualizando a página por favor aguarde...")
-                    sleep(5)
+                    message_alert("Updating the page please wait...")
+                    sleep(15)
+                    # bot.automatic.close_chat()
             else:
                 continue
-        except Exception as erro:
-            message_alert(erro, 100)
-            # os.system('cls')
-            message_alert('A página ainda não esta visível...')
-            break
+        except Exception:
+
+            attempt_limit += 1
+
+            if attempt_limit > 10:
+
+                message_alert('A página ainda não esta visível...')
+                attempt_limit = 0
+                os.system('cls')
+                message_alert('please wait...')
+                bot.automatic.driver.refresh()
+                sleep(15)
+                continue
+            else:
+                continue
