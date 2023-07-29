@@ -76,17 +76,6 @@ if __name__ == "__main__":
             else:
                 continue
         except Exception:
-
-            attempt_limit += 1
-
-            if attempt_limit > 10:
-
-                message_alert('A página ainda não esta visível...')
-                attempt_limit = 0
-                os.system('cls')
-                message_alert('please wait...')
-                bot.automatic.driver.refresh()
-                sleep(15)
-                continue
-            else:
-                continue
+            message_alert('Pagina carregando...')
+            sleep(5)
+            continue
