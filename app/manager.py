@@ -60,8 +60,10 @@ if __name__ == "__main__":
                 ) and please_wait or (
                 bot.automatic.status == 'NÃO HÁ MAIS APOSTAS'
                     ) and please_wait:
-
-                bot.delete_message(set_up.chat_id, message_id)
+                try:
+                    bot.delete_message(set_up.chat_id, message_id)
+                except Exception:
+                    pass
                 os.system('cls')
                 please_wait = False
                 game_screen = True
